@@ -8,7 +8,7 @@
 <body>
 	
 	<div>
-		<button>
+		<button sec:authorize="hasAuthority('ADMIN')">
 			<a href="/create">
 				nuova pizza
 			</a>
@@ -39,11 +39,18 @@
 				[[${pizza.getOverview()}]]
 				[[${pizza.getPrice()}]] $$$
 				<button>					
-				<a th:href="@{/edit/{id} (id = ${pizza.getId()})}"> Edita </a>
-				</button>
-				<form th:action="@{/delete/{id}(id=${pizza.id})}" method="POST">
+				<a 
+					sec:authorize="hasAuthority('ADMIN')"
+					th:href="@{/edit/{id} (id = ${pizza.getId()})}">
 					
-					<input type="submit" value="ELIMINA">
+					 Edita 
+				</a>
+				</button>
+				<form th:action="@{/delete/{id}(id=${pizza.id})}" 
+						method="POST"
+						sec:authorize="hasAuthority('ADMIN')">
+					
+					<input type="submit" value="ELIMINA" sec:authorize="hasAuthority('ADMIN')">
 				</form>
 			</li>
 		</ul>
